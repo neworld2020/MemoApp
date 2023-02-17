@@ -1,0 +1,13 @@
+﻿<Shell xmlns="http://xamarin.com/schemas/2014/forms"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:views="clr-namespace:MemoApp.Views;assembly=MemoApp"
+       x:Class="MemoApp.AppShell">
+    <TabBar>
+        <ShellContent Title="Index"
+                      Icon="cat.png"
+                      ContentTemplate="{DataTemplate views:IndexPage}" />
+        <ShellContent Title="Login"
+                      Icon="dog.png"
+                      ContentTemplate="{DataTemplate views:LoginPage}" />
+    </TabBar>
+</Shell>

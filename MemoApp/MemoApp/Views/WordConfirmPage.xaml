@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MemoApp.Views.WordConfirmPage"
+             Shell.NavBarIsVisible="False" Shell.TabBarIsVisible="False"
+             Background="#f1f2f4">
+    <ContentPage.Content>
+        <Frame Margin="20, 40" CornerRadius="10"
+               BackgroundColor="White">
+            <Frame.GestureRecognizers>
+                <SwipeGestureRecognizer Direction="Down" Swiped="SwipeDownQuit" />
+            </Frame.GestureRecognizers>
+            <Grid ColumnDefinitions="*,*"
+                  RowDefinitions="*, 500, 50"
+                  HorizontalOptions="Fill"
+                  VerticalOptions="CenterAndExpand">
+                <Label Text="NEW"
+                       x:Name="FamiliarLabel"
+                       FontFamily="Smiley Sans"
+                       TextColor="SeaGreen"
+                       Grid.Row="0" Grid.Column="1"
+                       HorizontalOptions="End"
+                       VerticalOptions="Center"/>
+                <Label Text="vocabulary"
+                       x:Name="WordLabel"
+                       FontFamily="Smiley Sans"
+                       FontSize="60"
+                       TextColor="Black"
+                       Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" 
+                       Margin="0, -200, 0, 0"
+                       HorizontalOptions="Center"
+                       VerticalOptions="CenterAndExpand" />
+                <Button Text="认识"
+                        Grid.Row="2" Grid.Column="0"
+                        FontSize="20"
+                        FontFamily="Smiley Sans"
+                        Clicked="OnSkipButtonClicked" 
+                        TextColor="Green"
+                        Background="White" />
+                <Button Text="不认识"
+                        Grid.Row="2" Grid.Column="1"
+                        FontSize="20"
+                        FontFamily="Smiley Sans"
+                        TextColor="Red"
+                        Background="White" 
+                        Clicked="OnInfoButtonClicked" />
+            </Grid>
+        </Frame>
+    </ContentPage.Content>
+</ContentPage>

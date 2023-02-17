@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MemoApp.Views.WordDetailPage"
+             Shell.NavBarIsVisible="False" Shell.TabBarIsVisible="False"
+             Background="#f1f2f4">
+    <ContentPage.Content>
+        <Frame Margin="20, 40" CornerRadius="10"
+               BackgroundColor="White" Padding="0">
+            <Frame.GestureRecognizers>
+                <SwipeGestureRecognizer Direction="Down" Swiped="SwipeDownQuit" />
+            </Frame.GestureRecognizers>
+            <StackLayout Margin="20,10">
+                <Label x:Name="EnWord"
+                       Margin="0,0,0,-10"
+                       Text="intrepid"
+                       FontFamily="Smiley Sans"
+                       FontSize="35"
+                       FontAttributes="Bold"
+                       TextColor="Black"
+                       VerticalOptions="Start" />
+                <Label x:Name="ChWord"
+                       Margin="5, 0, 0, 0"
+                       Text="adj. 勇敢的"
+                       FontFamily="Smiley Sans"
+                       FontSize="15" />
+                <CollectionView x:Name="Sentences" Margin="0, 10">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Orientation="Vertical">
+                                <Frame CornerRadius="20"
+                                       Padding="0" Margin="0, 7">
+                                    <Grid RowDefinitions="*, *" ColumnDefinitions="85, 120"
+                                          RowSpacing="0">
+                                        <!-- TODO 修复在文本显示较短时人名会显示不全的问题 -->
+                                        <Label x:Name="speaker"
+                                               Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"
+                                               HorizontalOptions="CenterAndExpand"
+                                               VerticalOptions="CenterAndExpand"
+                                               Text="{Binding speaker}"
+                                               TextColor="{Binding speakerColor}"
+                                               FontAttributes="Bold"
+                                               FontSize="Medium" 
+                                               Margin="10, 0, 0, 0"/>
+                                        <Label x:Name="dialogue"
+                                               Grid.Column="1" Grid.Row="0"
+                                               Text="{Binding content}"
+                                               TextColor="Black"
+                                               FontSize="12"/>
+                                        <Label x:Name="translation"
+                                               Grid.Column="1" Grid.Row="1"
+                                               Margin="0, 0, 0, 0"
+                                               Text="{Binding translation}"
+                                               FontSize="11" />
+                                    </Grid>
+                                </Frame>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+                <Button Text="Next >>"
+                        FontAttributes="Bold"
+                        FontSize="30"
+                        Released="NextWord"
+                        TextColor="Green"
+                        BackgroundColor="White"
+                        Margin="0, 0, 0, 40"/>
+            </StackLayout>
+        </Frame>
+    </ContentPage.Content>
+</ContentPage>
