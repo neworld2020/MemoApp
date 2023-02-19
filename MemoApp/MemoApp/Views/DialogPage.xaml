@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MemoApp.Views.DialogPage"
+             Shell.NavBarIsVisible="False" Shell.TabBarIsVisible="False"
+             Background="#f1f2f4">
+    <ContentPage.Content>
+        <Frame Margin="20, 40" CornerRadius="10"
+               BackgroundColor="White" Padding="0" x:Name="OuterFrame">
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Tapped="BackToDetail" />
+            </Frame.GestureRecognizers>
+            <StackLayout InputTransparent="True" x:Name="MiddleStackLayout">
+                <CollectionView x:Name="Sentences" 
+                            Margin="10, 20">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame CornerRadius="20"
+                                   Padding="0" Margin="0, 7" HasShadow="False">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="BackToDetail" />
+                                </Frame.GestureRecognizers>
+                                <Grid RowDefinitions="25, Auto, Auto" ColumnDefinitions="*"
+                                      RowSpacing="0">
+                                        <Label x:Name="speaker"
+                                               Grid.Column="0" Grid.Row="0"
+                                               HorizontalOptions="StartAndExpand"
+                                               VerticalOptions="CenterAndExpand"
+                                               Text="{Binding speaker}"
+                                               TextColor="{Binding speakerColor}"
+                                               FontAttributes="Bold"
+                                               FontSize="Medium"
+                                               TextDecorations="Underline"
+                                               Margin="10, 0, 0, 0" />
+                                        <Label x:Name="dialogue"
+                                               Grid.Column="0" Grid.Row="1"
+                                               Margin="20, 0, 20, 0"
+                                               Text="{Binding content}"
+                                               TextColor="Black"
+                                               FontFamily="LatinItalic"
+                                               FontSize="12" />
+                                        <Label x:Name="translation"
+                                               Grid.Column="0" Grid.Row="2"
+                                               Margin="20, 0, 20, 0"
+                                               Text="{Binding translation}"
+                                               FontSize="11" />
+                                    </Grid>
+                                </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
+        </Frame>
+    </ContentPage.Content>
+</ContentPage>

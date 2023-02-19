@@ -4,7 +4,8 @@ using System;
 using Xamarin.Forms;
 
 
-[assembly: ExportFont("SmileySans-Oblique.ttf", Alias = "Smiley Sans")]
+[assembly: ExportFont("pt-serif-v11-latin-regular.ttf", Alias = "LatinRegular"),
+           ExportFont("pt-serif-v11-latin-italic.ttf", Alias = "LatinItalic")]
 
 namespace MemoApp.Views
 {
@@ -23,9 +24,7 @@ namespace MemoApp.Views
             base.OnAppearing();
             if(_localStorage != null)
             {
-                // read detail information from a local data
                 _wordDetail = _localStorage.Detail;
-                Sentences.ItemsSource = _wordDetail.contents;
                 // set text of en_word & ch_word 
                 EnWord.Text = Word;
                 ChWord.Text = _wordDetail.word_translation;
@@ -88,6 +87,11 @@ namespace MemoApp.Views
             {
                 await Navigation.PopToRootAsync();
             }
+        }
+
+        private async void SwitchToDialogPage(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new DialogPage());
         }
     }
 }

@@ -23,5 +23,15 @@
     <ItemGroup>
       <None Remove="Resource\SmileySans-Oblique.ttf" />
       <EmbeddedResource Include="Resource\SmileySans-Oblique.ttf" />
+      <None Remove="Resource\pt-serif-v11-latin-700.woff2" />
+      <None Remove="Resource\pt-serif-v11-latin-700italic.woff2" />
+      <None Remove="Resource\pt-serif-v11-latin-italic.woff2" />
+      <None Remove="Resource\pt-serif-v11-latin-regular.woff2" />
+      <None Remove="Resource\pt-serif-v11-latin-700italic.ttf" />
+      <EmbeddedResource Include="Resource\pt-serif-v11-latin-700italic.ttf" />
+      <None Remove="Resource\pt-serif-v11-latin-italic.ttf" />
+      <EmbeddedResource Include="Resource\pt-serif-v11-latin-italic.ttf" />
+      <None Remove="Resource\pt-serif-v11-latin-regular.ttf" />
+      <EmbeddedResource Include="Resource\pt-serif-v11-latin-regular.ttf" />
     </ItemGroup>
 </Project>
