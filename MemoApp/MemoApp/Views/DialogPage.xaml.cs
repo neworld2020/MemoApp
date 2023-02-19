@@ -37,7 +37,8 @@ namespace MemoApp.Views
                 _wordDetail = _localStorage.Detail;
                 Sentences.ItemsSource = _wordDetail.contents;
             }
-            Device.StartTimer(TimeSpan.FromSeconds(1), (Func<bool>)(() =>
+            // After OnAppearing
+            Device.StartTimer(TimeSpan.FromMilliseconds(100), (Func<bool>)(() =>
             {
                 Device.BeginInvokeOnMainThread(() =>
                 {
@@ -54,7 +55,6 @@ namespace MemoApp.Views
                     {
                         MiddleStackLayout.InputTransparent = false;
                     }
-                    Console.WriteLine($"Height={Sentences.Height}, ChildrenHeight={allChildrenHeight}");
                 });             
                    
                 return false;

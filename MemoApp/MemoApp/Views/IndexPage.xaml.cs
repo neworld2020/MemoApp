@@ -69,23 +69,28 @@ namespace MemoApp.Views
 		protected override void OnAppearing()
 		{
 			base.OnAppearing();
-			// 1. 更新当前日期
-			DateTime today = DateTime.Now;
-			string[] monthArray = new string[] {
-				"Jan.", "Feb.", "Mar.", "Apr.", "May", "Jun.",
-				 "Jul.", "Aug.", "Sept.", "Oct.", "Nov.", "Dec." };
-			string monthStr = monthArray[today.Month - 1];
-			CurrentDate.Text = monthStr + today.Day;
-			// 2. Auto Login
-			GlobalClasses.ExtLogin.Init();
-			// 3. localStorage Initialize
-			if (FirstStudy)
+			// 其他加载项异步执行
+			Device.StartTimer(TimeSpan.FromMilliseconds(100), () =>
 			{
-				_localStorage.Init();
-			}
-			// 4. Update Nums
-			_indexViewModel.WordsToStudy = GlobalClasses.Index.WordsToStudy;
-			_indexViewModel.WordsToReview = GlobalClasses.Index.WordsToReview;
+				// 1. 更新当前日期
+				DateTime today = DateTime.Now;
+				string[] monthArray = new string[] {
+					"Jan.", "Feb.", "Mar.", "Apr.", "May", "Jun.",
+					"Jul.", "Aug.", "Sept.", "Oct.", "Nov.", "Dec." };
+				string monthStr = monthArray[today.Month - 1];
+				CurrentDate.Text = monthStr + today.Day;
+				// 2. Auto Login
+				GlobalClasses.ExtLogin.Init();
+				// 3. localStorage Initialize
+				if (FirstStudy)
+				{
+					_localStorage.Init();
+				}
+				// 4. Update Nums
+				_indexViewModel.WordsToStudy = GlobalClasses.Index.WordsToStudy;
+				_indexViewModel.WordsToReview = GlobalClasses.Index.WordsToReview;
+				return false;
+			});
 		}
     }
 }
