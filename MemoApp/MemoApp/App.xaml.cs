@@ -36,8 +36,8 @@ namespace MemoApp
 
     public static class GlobalClasses
     {
-        public static readonly UserManagement UserManagement = new UserManagement("https://www.cloud-smx2003.fun");
-        public static readonly RemoteStorage RemoteStorage = new RemoteStorage("https://www.cloud-smx2003.fun");
+        public static readonly UserManagement UserManagement = new UserManagement("https://cloud-smx2003.fun");
+        public static readonly RemoteStorage RemoteStorage = new RemoteStorage("https://cloud-smx2003.fun");
         public static readonly ExtLogin ExtLogin = new ExtLogin();
         public static readonly LocalStorage LocalStorage = new LocalStorage();
 

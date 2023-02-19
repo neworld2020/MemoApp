@@ -22,10 +22,10 @@ namespace MemoApp.Models
             // get salt from server
             string saltPath = "/user/salt?username=" + username;
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, saltPath);
-            var response = _client.SendAsync(httpRequestMessage);
-            if (response.Result.StatusCode == System.Net.HttpStatusCode.OK)
+            var response = await _client.SendAsync(httpRequestMessage);
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                string saltJson = await response.Result.Content.ReadAsStringAsync();
+                string saltJson = await response.Content.ReadAsStringAsync();
                 SaltResponse saltResponse = JsonConvert.DeserializeObject<SaltResponse>(saltJson);
                 return saltResponse.salt;
             }
@@ -70,10 +70,10 @@ namespace MemoApp.Models
             string userInfoStr = JsonConvert.SerializeObject(userInfo);
             httpRequestMessage.Content = new StringContent(userInfoStr, Encoding.UTF8, "application/json");
             // get userkey from response
-            Task<HttpResponseMessage> response = _client.SendAsync(httpRequestMessage);
-            if (response.Result.StatusCode == System.Net.HttpStatusCode.OK)
+            var response = await _client.SendAsync(httpRequestMessage);
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                string userKeyJson = await response.Result.Content.ReadAsStringAsync();
+                string userKeyJson = await response.Content.ReadAsStringAsync();
                 UserkeyResponse userkeyResponse = JsonConvert.DeserializeObject<UserkeyResponse>(userKeyJson);
                 GlobalClasses.RemoteStorage.UserKey = userkeyResponse.userkey;
                 return userkeyResponse.userkey;
@@ -84,7 +84,7 @@ namespace MemoApp.Models
             }
         }
 
-        public bool Register(string username, string password, string salt)
+        public async Task<bool> Register(string username, string password, string salt)
         {
             string registerPath = "/user/register";
             UserInfo userInfo = new UserInfo();
@@ -95,7 +95,7 @@ namespace MemoApp.Models
             string userInfoStr = JsonConvert.SerializeObject(userInfo);
             httpRequestMessage.Content = new StringContent(userInfoStr, Encoding.UTF8, "application/json");
             // get userkey from response
-            HttpResponseMessage response = _client.SendAsync(httpRequestMessage).Result;
+            var response = await _client.SendAsync(httpRequestMessage);
             return response.StatusCode == System.Net.HttpStatusCode.OK;
         }
     }
