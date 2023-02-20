@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Threading.Tasks;
 using MemoApp.Models;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -10,10 +8,10 @@ namespace MemoApp.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LoginPage : ContentPage
     {
-        private readonly UserManagement _userMgmt = GlobalClasses.UserManagement;
-        private readonly RemoteStorage _remoteStorage= GlobalClasses.RemoteStorage;
         private readonly ExtLogin _extLogin = GlobalClasses.ExtLogin;
         private readonly LocalStorage _localStorage = GlobalClasses.LocalStorage;
+        private readonly RemoteStorage _remoteStorage = GlobalClasses.RemoteStorage;
+        private readonly UserManagement _userMgmt = GlobalClasses.UserManagement;
 
         public LoginPage()
         {
@@ -37,16 +35,13 @@ namespace MemoApp.Views
                 // clear LocalStorage
                 _localStorage.Clear();
                 // submit form and login -- SavePassword = false
-                string usernameText = Username.Text;
-                string passwordText = Password.Text;
-                if (usernameText == "" || passwordText == "")
-                {
-                    return;
-                }
+                var usernameText = Username.Text;
+                var passwordText = Password.Text;
+                if (usernameText == "" || passwordText == "") return;
 
-                string salt = await _userMgmt.Salt(usernameText);
-                string encryptedPwd = _userMgmt.Encrypt(passwordText, salt, "BCRYPT");
-                string userkeyTask = await _userMgmt.Login(usernameText, encryptedPwd);
+                var salt = await _userMgmt.Salt(usernameText);
+                var encryptedPwd = _userMgmt.Encrypt(passwordText, salt, "BCRYPT");
+                var userkeyTask = await _userMgmt.Login(usernameText, encryptedPwd);
                 // here we can add some animation
                 if (userkeyTask != null)
                 {
@@ -59,25 +54,22 @@ namespace MemoApp.Views
                         _extLogin.RememberedPwdLength = Password.Text.Length;
                         _extLogin.UpdateUserkey = userkeyTask;
                     }
+
                     await DisplayAlert("Congratulations", "Login Succeed", "OK");
                 }
                 else
                 {
                     // 登录失败 -- 询问是否注册
                     _remoteStorage.UserKey = null;
-                    bool register =
+                    var register =
                         await DisplayAlert("Login Failed", "Do you want to register?", "Yes", "No");
                     if (register)
                     {
-                        bool registerSucceed = await _userMgmt.Register(usernameText, encryptedPwd, salt);
+                        var registerSucceed = await _userMgmt.Register(usernameText, encryptedPwd, salt);
                         if (registerSucceed)
-                        {
                             await DisplayAlert("Register Succeed!", "Please Login Again", "OK");
-                        }
                         else
-                        {
                             await DisplayAlert("Register Failed!", "The username has been registered", "OK");
-                        }
                     }
                 }
             }
@@ -103,13 +95,14 @@ namespace MemoApp.Views
         private void OnSavePwdCheckChange(object sender, EventArgs e)
         {
             // "保存密码候选框"
-            bool isSavePwdChecked = SavePwd.IsChecked;
+            var isSavePwdChecked = SavePwd.IsChecked;
             if (isSavePwdChecked)
             {
                 // 允许选中“自动登录”
                 AutoLogin.Color = Color.FromHex("#67bafc");
                 AutoLogin.IsEnabled = true;
-            }else
+            }
+            else
             {
                 AutoLogin.IsChecked = false;
                 AutoLogin.Color = Color.Gray;
@@ -117,14 +110,17 @@ namespace MemoApp.Views
             }
         }
 
-        private void AvatarChange(object sender, TextChangedEventArgs e)
+        private void AvatarChange(object sender, EventArgs e)
         {
-
+            string username = Username.Text;
+            UriBuilder avatarUriBuilder = new UriBuilder("https://ui-avatars.com/api/");
+            avatarUriBuilder.Query = $"name={username}&background=2992e5&color=fff&uppercase=false";
+            Avatar.Source = ImageSource.FromUri(avatarUriBuilder.Uri);
+            base.OnAppearing();
         }
 
         private void Logout(object sender, EventArgs e)
         {
-
         }
     }
 }

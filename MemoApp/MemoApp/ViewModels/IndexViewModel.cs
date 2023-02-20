@@ -11,12 +11,14 @@ namespace MemoApp.ViewModels
     {
         private int _wordsToStudy;
         private int _wordsToReview;
+        private string _avatarSource;
         public event PropertyChangedEventHandler PropertyChanged;
 
         public IndexViewModel()
         {
             _wordsToStudy = GlobalClasses.LearningWordsCount;
             _wordsToReview = 0;
+            _avatarSource = "https://cloud-smx2003.fun/file/0220160940_user.png";
         }
 
         public int WordsToStudy
@@ -48,6 +50,23 @@ namespace MemoApp.ViewModels
                     if (PropertyChanged != null)
                     {
                         PropertyChanged(this, new PropertyChangedEventArgs("WordsToReview"));
+                    }
+                }
+            }
+        }
+
+        public string AvatarSource
+        {
+            get => _avatarSource;
+            set
+            {
+                if (_avatarSource != value)
+                {
+                    _avatarSource = value;
+
+                    if (PropertyChanged != null)
+                    {
+                        PropertyChanged(this, new PropertyChangedEventArgs("AvatarSource"));
                     }
                 }
             }

@@ -1,7 +1,7 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:MemoApp.ViewModels;assembly=MemoApp"
              x:Class="MemoApp.Views.IndexPage"
              Shell.NavBarIsVisible="False">
     <ContentPage.Content>
@@ -12,19 +12,22 @@
                       RowDefinitions="40">
                     <!-- 头像框 -->
                     <StackLayout Grid.Row="0" Grid.Column="0"
-                                 HorizontalOptions="Start" VerticalOptions="Center" WidthRequest="40" HeightRequest="40" Margin="0, 0, 0, 0" RelativeLayout.YConstraint="-75" RelativeLayout.XConstraint="20">
-                        <StackLayout WidthRequest="40" HeightRequest="40" HorizontalOptions="Center" VerticalOptions="Center">
+                                 HorizontalOptions="Start" VerticalOptions="Center" WidthRequest="40"
+                                 HeightRequest="40" Margin="0, 0, 0, 0" RelativeLayout.YConstraint="-75"
+                                 RelativeLayout.XConstraint="20">
+                        <StackLayout WidthRequest="40" HeightRequest="40" HorizontalOptions="Center"
+                                     VerticalOptions="Center">
                             <Frame WidthRequest="40" HeightRequest="40"
-                                CornerRadius="50" IsClippedToBounds="True">
+                                   CornerRadius="50" IsClippedToBounds="True">
                                 <!-- 头像，可以从服务器获取 -->
-                                <Image Source="https://bpic.588ku.com/element_origin_min_pic/19/04/09/d5338875ce7f5f922beb421b2ee39f03.jpg"
-                                    WidthRequest="40" HeightRequest="40" Margin="-20" Aspect="AspectFill"/>
+                                <Image Source="{Binding AvatarSource}"
+                                       WidthRequest="40" HeightRequest="40" Margin="-20" Aspect="AspectFill" />
                             </Frame>
                         </StackLayout>
                     </StackLayout>
                     <!-- 搜索 -->
                     <SearchBar Grid.Row="0" Grid.Column="1"
-                               Placeholder="查词功能未开发完毕"/>
+                               Placeholder="查词功能未开发完毕" />
                 </Grid>
             </Frame>
             <!-- Content -->
@@ -32,21 +35,21 @@
                 <Frame Background="White" CornerRadius="10" Margin="10, 10, 10, 0" Padding="15">
                     <StackLayout>
                         <!-- 显示今天日期 -->
-                        <Label x:Name="CurrentDate" 
+                        <Label x:Name="CurrentDate"
                                TextColor="#2992e5"
                                FontSize="25"
                                FontAttributes="Bold"
                                Margin="10, 0"
-                               Text="Jan.1"/>
+                               Text="Jan.1" />
                         <!-- 好句 -->
                         <Label Margin="10, 0, 0, 0"
                                TextColor="Black"
                                FontSize="18"
                                x:Name="GoodSentence"
-                               Text="There will always be frustrations in life, but I know that the point of living is to not leave behind any regrets."/>
+                               Text="There will always be frustrations in life, but I know that the point of living is to not leave behind any regrets." />
                         <Label Margin="10, 0, 0, 0"
                                FontSize="16"
-                               Text="生命中永远会有令人懊恼的事，但我知道，我们是为了不留遗憾而活着的，对吗？"/>
+                               Text="生命中永远会有令人懊恼的事，但我知道，我们是为了不留遗憾而活着的，对吗？" />
                     </StackLayout>
                 </Frame>
                 <Frame Background="White" CornerRadius="10" Margin="10, 10, 10, 0" Padding="15">
@@ -64,45 +67,43 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <!-- 词书图标与名字 -->
-                        <Image Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" 
-                               Source="https://p1.ssl.qhmsg.com/dr/270_500_/t01d6c3d251d654d304.jpg"/>
-                        <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" 
+                        <Image Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"
+                               Source="https://cloud-smx2003.fun/file/0220154835_TOEFL.png" />
+                        <Label Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"
                                Text="当前词书：托福词汇2300" TextColor="Black" FontSize="Medium"
                                FontAttributes="Bold" Margin="10, 0, 0, 0"
-                               x:Name="CurrentVocabulary"/>
+                               x:Name="CurrentVocabulary" />
                         <!-- 自定义语料库选择 -->
                         <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2"
                                Text="当前语料库：默认" Margin="10, 4, 0, 0"
-                               x:Name="CurrentCorpus"/>
+                               x:Name="CurrentCorpus" />
                         <!-- 今日需学 -->
-                        <Label Grid.Row="3" Grid.Column="0" 
+                        <Label Grid.Row="3" Grid.Column="0"
                                HorizontalOptions="Center"
-                               Text="{Binding WordsToStudy, StringFormat='{0}'}" 
-                               FontSize="20" 
+                               Text="{Binding WordsToStudy, StringFormat='{0}'}"
+                               FontSize="20"
                                FontAttributes="Bold"
-                               TextColor="Black">
-                        </Label>
-                        <Label Grid.Row="3" Grid.Column="0" 
+                               TextColor="Black" />
+                        <Label Grid.Row="3" Grid.Column="0"
                                HorizontalOptions="CenterAndExpand" VerticalOptions="End"
                                Text="今日需学" FontSize="10" />
                         <!-- 今日需复习 -->
-                        <Label Grid.Row="3" Grid.Column="1" 
+                        <Label Grid.Row="3" Grid.Column="1"
                                HorizontalOptions="Center"
-                               Text="{Binding WordsToReview, StringFormat='{0}'}" 
+                               Text="{Binding WordsToReview, StringFormat='{0}'}"
                                FontSize="20" FontAttributes="Bold"
-                               TextColor="Black">
-                        </Label>
-                        <Label Grid.Row="3" Grid.Column="1" 
+                               TextColor="Black" />
+                        <Label Grid.Row="3" Grid.Column="1"
                                HorizontalOptions="CenterAndExpand" VerticalOptions="End"
-                               Text="今日需复习" FontSize="10"/>
+                               Text="今日需复习" FontSize="10" />
                         <!-- 开始学习按钮 -->
                         <Button Grid.Row="3" Grid.Column="2"
-                                Text="开始学习" Released="StartLearning" 
+                                Text="开始学习" Released="StartLearning"
                                 BackgroundColor="#37a7ff" CornerRadius="20"
-                                FontAttributes="Bold" TextColor="White"/>
+                                FontAttributes="Bold" TextColor="White" />
                     </Grid>
                 </Frame>
-                
+
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

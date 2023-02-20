@@ -1,4 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MemoApp.Views.LoginPage"
@@ -6,39 +7,44 @@
     <ContentPage.Content>
         <StackLayout BackgroundColor="#f1f2f4">
             <Label Text="登录" Margin="20, 20, 0 , 0" TextColor="#2992e5"
-                   FontSize="Large"/>
+                   FontSize="Large" />
             <!-- 登录卡片 -->
             <Frame Background="White" CornerRadius="20" Margin="15, 5">
                 <StackLayout>
                     <!-- 头像框 -->
-                    <StackLayout HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="80" HeightRequest="80" Margin="0,0,0,0" RelativeLayout.YConstraint="-75" RelativeLayout.XConstraint="20">
-                        <StackLayout WidthRequest="150" HeightRequest="150" HorizontalOptions="Center" VerticalOptions="Center">
+                    <StackLayout HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="80"
+                                 HeightRequest="80" Margin="0,0,0,0" RelativeLayout.YConstraint="-75"
+                                 RelativeLayout.XConstraint="20">
+                        <StackLayout WidthRequest="150" HeightRequest="150" HorizontalOptions="Center"
+                                     VerticalOptions="Center">
                             <Frame WidthRequest="90" HeightRequest="90"
-                                       CornerRadius="50" IsClippedToBounds="True">
+                                   CornerRadius="50" IsClippedToBounds="True">
                                 <!-- 头像，可以从服务器获取 -->
-                                <Image Source="https://bpic.588ku.com/element_origin_min_pic/19/04/09/d5338875ce7f5f922beb421b2ee39f03.jpg"
-                                       WidthRequest="150" HeightRequest="150" Margin="-20" Aspect="AspectFill"/>
+                                <Image x:Name="Avatar"
+                                    Source="https://cloud-smx2003.fun/file/0220160940_user.png"
+                                    WidthRequest="150" HeightRequest="150" Margin="-20" Aspect="AspectFill" />
                             </Frame>
                         </StackLayout>
                     </StackLayout>
                     <!-- 登录用户名与密码 -->
-                    <Entry Placeholder="用户名" TextChanged="AvatarChange" MaxLength="20"
-                               ClearButtonVisibility="WhileEditing" x:Name="Username"/>
+                    <Entry Placeholder="用户名" MaxLength="20"
+                           ClearButtonVisibility="WhileEditing" x:Name="Username" />
                     <Entry Placeholder="密码" IsPassword="True" x:Name="Password"
-                               ClearButtonVisibility="WhileEditing"/>
+                           ClearButtonVisibility="WhileEditing" 
+                           Focused="AvatarChange"/>
                     <Button Released="LoginBtnReleased" Text="Login/Register"
-                                CornerRadius="10" BackgroundColor="#67bafc"/>
+                            CornerRadius="10" BackgroundColor="#67bafc" />
                     <!-- 登出按钮，当验证确实登录成功（userkey有效）时出现 -->
                     <Button Released="Logout" Text="Logout" TextColor="White" x:Name="LogoutBtn"
-                                Margin="0, 10, 0, 0" FontAttributes="Bold" IsVisible="False"
-                                CornerRadius="10" BackgroundColor="Red"/>
+                            Margin="0, 10, 0, 0" FontAttributes="Bold" IsVisible="False"
+                            CornerRadius="10" BackgroundColor="Red" />
                     <!-- 保存密码与自动登录选项 -->
                     <StackLayout Orientation="Horizontal" Spacing="0">
                         <CheckBox Color="#67bafc" Margin="10, 0, 0, 0" x:Name="SavePwd"
-                                      CheckedChanged="OnSavePwdCheckChange"/>
-                        <Label Text="保存密码" Margin="0, 5, 80, 0"/>
-                        <CheckBox Color="Gray" x:Name="AutoLogin" IsEnabled="False"/>
-                        <Label Text="自动登录" Margin="0, 5, 0, 0"/>
+                                  CheckedChanged="OnSavePwdCheckChange" />
+                        <Label Text="保存密码" Margin="0, 5, 80, 0" />
+                        <CheckBox Color="Gray" x:Name="AutoLogin" IsEnabled="False" />
+                        <Label Text="自动登录" Margin="0, 5, 0, 0" />
                     </StackLayout>
                 </StackLayout>
             </Frame>
