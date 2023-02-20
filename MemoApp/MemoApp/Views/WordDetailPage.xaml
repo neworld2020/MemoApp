@@ -19,8 +19,9 @@
                        FontFamily="LatinRegular"
                        TextColor="Black"
                        VerticalOptions="Start" />
+                <!-- TODO 使用适合的中文字体 -->
                 <Label x:Name="ChWord"
-                       Margin="10, 0, 10, 10"
+                       Margin="10, 5, 10, 10"
                        Text="adj. 勇敢的"
                        FontSize="15" />
                 <Grid RowDefinitions="Auto, Auto" ColumnDefinitions="*">
@@ -33,7 +34,7 @@
                     <Label x:Name="Example" 
                            Text="Here is a test example."
                            Margin="15, 0, 15, 0"
-                           FontSize="15"
+                           FontSize="18"
                            FontFamily="LatinItalic"
                            Grid.Row="1" Grid.Column="0"/>
                 </Grid>

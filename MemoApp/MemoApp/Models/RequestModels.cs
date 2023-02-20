@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using Xamarin.Forms.Internals;
 
 namespace MemoApp.Models
 {
@@ -61,6 +63,56 @@ namespace MemoApp.Models
             get { return data[i]; }
             set { data[i] = value; }
         }
+
+        public WordDetails Preprocess()
+        {
+            foreach (var wordDetail in data)
+            {
+                foreach (var content in wordDetail.contents)
+                {
+                    content.content = PreProcessStr(content.content, "en");
+                    content.translation = PreProcessStr(content.translation, "ch");
+                }
+
+                wordDetail.word_translation = PreProcTranslation(wordDetail.word_translation);
+            }
+            return this;
+        }
+        
+        private static string PreProcessStr(string rawString, string language="en")
+        {
+            // {NICKNAME} -> username
+            string processString = rawString
+                .Replace("{NICKNAME}", GlobalClasses.ExtLogin.RememberedUsername)
+                .Replace("\\n", "&#10;");
+            return processString;
+        }
+
+        private static string PreProcTranslation(string translation)
+        {
+            // 先分组、分类
+            // n. T1;T2; ...;Tn v. V1;V2;...;Vn adj.
+            const int trimLength = 2;
+            var group = translation.Split('\t');
+            var processedStr = new StringBuilder();
+            foreach (var splitStr in group)
+            {
+                string wordType = splitStr.Split(' ')[0];
+                IEnumerable<string> explains = splitStr
+                    .Split(' ')[1]
+                    .Split('；')
+                    .Take(trimLength);
+                processedStr = processedStr.Append(wordType);
+                foreach (var explain in explains)
+                {
+                    processedStr = processedStr.Append(explain + "；");
+                }
+
+                processedStr = processedStr.Append("\n");
+            }
+
+            return processedStr.ToString();
+        }
     }
 
     // 一个单词与其熟悉度
@@ -79,15 +131,11 @@ namespace MemoApp.Models
     // 多个单词及其对应的熟悉度
     public class Vocabulary
     {
-        private List<Word> data;
-        // 分组索引
-        private List<int> group_sep_indexes = new List<int>();
+        private List<Word> data = new List<Word>();
 
         public Vocabulary(List<Word> words)
         {
-            this.data = words;
-            // 自动分组 -- 按照设定的MAX_NUM_OF_GROUP
-
+            data.AddRange(words);
         }
         
         public int Count => data.Count; 
@@ -95,15 +143,8 @@ namespace MemoApp.Models
         // 索引器
         public Word this[int i]
         {
-            get { return data[i]; }
-            set { data[i] = value; }
-        }
-
-        // 查找器
-        public int find(string word)
-        {
-            int index = data.IndexOf(data.Find(p=>p.word==word));
-            return index;
+            get => data[i];
+            set => data[i] = value;
         }
     }
     // 同时获取Vocabulary和WordDetails

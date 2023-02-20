@@ -1,6 +1,7 @@
 ﻿using MemoApp.Models;
 using System;
-
+using System.Collections.Generic;
+using System.Linq;
 using Xamarin.Forms;
 
 
@@ -28,6 +29,7 @@ namespace MemoApp.Views
                 // set text of en_word & ch_word 
                 EnWord.Text = Word;
                 ChWord.Text = _wordDetail.word_translation;
+                Example.Text = FindExample();
             }
             
         }
@@ -36,6 +38,22 @@ namespace MemoApp.Views
         public WordDetailPage()
         {
             InitializeComponent(); 
+        }
+
+        private string FindExample()
+        {
+            IEnumerable<string> sentences =
+                from content in _wordDetail.contents
+                select content.content;
+            foreach (var sentence in sentences)
+            {
+                if (sentence.Contains($" {_localStorage.Current.word} "))
+                {
+                    return sentence;
+                }
+            }
+            // Impossible
+            return null;
         }
 
         protected override bool OnBackButtonPressed()

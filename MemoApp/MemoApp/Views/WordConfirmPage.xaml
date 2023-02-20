@@ -16,10 +16,11 @@
                   VerticalOptions="CenterAndExpand">
                 <Label Text="NEW"
                        x:Name="FamiliarLabel"
-                       FontFamily="Smiley Sans"
                        TextColor="SeaGreen"
-                       Grid.Row="0" Grid.Column="1"
-                       HorizontalOptions="End"
+                       FontFamily="LatinRegular"
+                       Grid.Row="0" Grid.Column="0"
+                       Grid.ColumnSpan="2"
+                       HorizontalOptions="Center"
                        VerticalOptions="Center"/>
                 <Label Text="vocabulary"
                        x:Name="WordLabel"

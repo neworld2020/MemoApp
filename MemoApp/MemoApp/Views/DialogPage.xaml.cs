@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using MemoApp.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -15,12 +17,24 @@ namespace MemoApp.Views
         {
             InitializeComponent();
         }
-
-        private async void SwipeDownQuit(object sender, SwipedEventArgs e)
+        
+        private int FindExample()
         {
-            var quit =
-                await DisplayAlert("Quit?", "Your progress will be saved", "Quit", "Continue");
-            if (quit) await Navigation.PopToRootAsync();
+            IEnumerable<string> sentences =
+                from content in _wordDetail.contents
+                select content.content;
+            int index = 0;
+            foreach (var sentence in sentences)
+            {
+                if (sentence.Contains($" {_localStorage.Current.word} "))
+                {
+                    return index;
+                }
+
+                index++;
+            }
+            // Impossible
+            return -1;
         }
 
         private async void BackToDetail(object sender, EventArgs e)
@@ -55,6 +69,12 @@ namespace MemoApp.Views
                     {
                         MiddleStackLayout.InputTransparent = false;
                     }
+                    
+                    // change color
+                    Sentences
+                        .LogicalChildren[FindExample()]
+                        .FindByName<Label>("dialogue")
+                        .TextColor = Color.FromHex("#2992e5");
                 });             
                    
                 return false;

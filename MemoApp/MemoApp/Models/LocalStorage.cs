@@ -52,7 +52,8 @@ namespace MemoApp.Models
 
                 VocabularyAndDetails vocabularyAndDetails = 
                     JsonConvert.DeserializeObject<VocabularyAndDetails>(vocabularyAndDetailsJson.Result);
-                WordDetails = new WordDetails(vocabularyAndDetails.word_details);
+                WordDetails = (new WordDetails(vocabularyAndDetails.word_details)).Preprocess();
+                // Process Vocabulary -- divide into groups
                 Vocabulary = new Vocabulary(vocabularyAndDetails.vocabulary);
                 _wordQueue.Init(Vocabulary);
                 _wordQueueIt = (WordQueueIterator)_wordQueue.GetEnumerator();
@@ -107,6 +108,7 @@ namespace MemoApp.Models
                         LocalQueueFileName);
                 File.Delete(fileAdr);
                 _wordQueueIt = null;
+                GlobalClasses.Index.FirstStudy = false;
             }
 
             return hasNext;
@@ -121,7 +123,7 @@ namespace MemoApp.Models
         {
             _wordQueueIt = null;
         }
-        
+
         // private methods
         private WordDetail GetDetail(string word)
         {

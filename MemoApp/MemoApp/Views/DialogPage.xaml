@@ -42,7 +42,7 @@
                                                Text="{Binding content}"
                                                TextColor="Black"
                                                FontFamily="LatinItalic"
-                                               FontSize="12" />
+                                               FontSize="15" />
                                         <Label x:Name="translation"
                                                Grid.Column="0" Grid.Row="2"
                                                Margin="20, 0, 20, 0"

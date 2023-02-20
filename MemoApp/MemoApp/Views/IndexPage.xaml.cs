@@ -44,10 +44,6 @@ namespace MemoApp.Views
 			        await DisplayAlert("Tip", "Learning more words than schedule?", "Yes", "No");
 		        if (!learningMore) return;
 	        }
-	        else
-	        {
-		        FirstStudy = false;
-	        }
 	        // TODO 实现复习功能
 			// get first word
 			if (!_localStorage.Init())
