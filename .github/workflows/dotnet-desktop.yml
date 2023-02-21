@@ -57,8 +57,8 @@ jobs:
 
     env:
       Solution_Name: MemoApp.sln                                                    # Replace with your solution name, i.e. MyWpfApp.sln.
-      Wap_Project_Directory: MemoApp.Package                                        # Replace with the Wap project directory relative to the solution, i.e. MyWpfApp.Package.
-      Wap_Project_Path: MemoApp.Package/MemoApp.Package.wapproj.                    # Replace with the path to your Wap project, i.e. MyWpf.App.Package\MyWpfApp.Package.wapproj.
+      Android_Project_Directory: MemoApp/MemoApp.Droid                              # Replace with the Android project directory relative to the solution
+      Android_Project_Path: MemoApp/MemoApp.Droid/MemoApp.Droid.csproj              # Replace with the path to your Android project
 
     steps:
     - name: Checkout
@@ -75,33 +75,29 @@ jobs:
     # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
     - name: Setup MSBuild.exe
       uses: microsoft/setup-msbuild@v1.0.2
-
-    # Restore the application to populate the obj folder with RuntimeIdentifiers
-    - name: Restore the application
-      run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
-      env:
-        Configuration: ${{ matrix.configuration }}
         
-    # App Optimizing and Signing
-    - name: Optimize and Signing APK
-      uses: kevin-david/zipalign-sign-android-release@v1.1
+    # App Build and Signing
+    - name: Build And Signing
+      uses: bradyjoslin/xamarinandroid-signedbuild-action@v1
       with:
         # The directory to find your release to sign
-        releaseDirectory: $env:Wap_Project_Path
+        csproj_path: $env:Android_Project_Path
         # The key used to sign your release in base64 encoded format
-        signingKeyBase64: ${{ secrets.AndroidSmxformalKeystore }}
+        signing_keystore: ${{ secrets.AndroidSmxformalKeystore }}
         # The key alias
-        alias: smxformal
+        signing_key_alias: smxformal
         # The password to the keystore
-        keyStorePassword: android_774225688
-        # The password for the key
-        keyPassword: android_774225688 # optional
-        # Actually zipalign the apk, rather than just verifying it
-        zipAlign: true # optional, default is false
+        signing_key_password: android_774225688
+        # Build configuration
+        configuration: Release # optional, default is Release
+        # Version of mono to use for build
+        mono_version: stable # optional, default is stable
+        # Version of Xamarin.Android to use for build
+        xamarin_android_version: stable # optional, default is stable
 
     # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
         name: MSIX Package
-        path: ${{ env.Wap_Project_Directory }}\AppPackages
+        path: ${{ env.Android_Project_Directory }}\AppPackages
