@@ -89,7 +89,7 @@ jobs:
         # The directory to find your release to sign
         releaseDirectory: $env:Wap_Project_Path
         # The key used to sign your release in base64 encoded format
-        signingKeyBase64: ${{ secret.AndroidSmxformalKeystore }}
+        signingKeyBase64: ${{ secrets.AndroidSmxformalKeystore }}
         # The key alias
         alias: smxformal
         # The password to the keystore
