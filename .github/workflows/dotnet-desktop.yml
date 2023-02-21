@@ -61,35 +61,18 @@ jobs:
       Android_Project_Path: MemoApp/MemoApp.Droid/MemoApp.Droid.csproj              # Replace with the path to your Android project
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-        
-    # App Build and Signing
-    - name: Build And Signing
-      uses: bradyjoslin/xamarinandroid-signedbuild-action@v1
-      with:
-        # Path to csproj file
-        csproj_path: $env:Android_Project_Path
-        # Base64 representation of the keystore
-        signing_keystore: ${{ secrets.AndroidSmxformalKeystore }}
-        # Keystore password
-        keystore_password: android_774225688
-        # The key alias
-        signing_key_alias: smxformal
-        # The password to the keystore
-        signing_key_password: android_774225688
-        # Build configuration
-        configuration: Release # optional, default is Release
-        # Version of mono to use for build
-        mono_version: stable # optional, default is stable
-        # Version of Xamarin.Android to use for build
-        xamarin_android_version: stable # optional, default is stable
-
-    # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: MSIX Package
-        path: ${{ env.Android_Project_Directory }}\AppPackages
+      - uses: actions/checkout@v2
+      - uses: bradyjoslin/xamarinandroid-signedbuild-action@v1
+        with:
+          csproj_path: $env:Android_Project_Directory
+          signing_keystore: ${{ secrets.KEYSTORE }}
+          keystore_password: ${{ secrets.KEYSTORE_PASS }}
+          signing_key_alias: ${{ secrets.KEY_ALIAS }}
+          signing_key_password: ${{ secrets.KEY_PASS }}
+          configuration: "Release"
+          mono_version: "preview"
+          xamarin_android_version: "preview"
+      - uses: actions/upload-artifact@v2
+        with:
+          name: ipa
+          path: ${{ env.Android_Project_Directory }}/Release/**Signed.apk
