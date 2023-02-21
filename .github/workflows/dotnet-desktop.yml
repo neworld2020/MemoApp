@@ -52,8 +52,8 @@ jobs:
 
     env:
       Solution_Name: MemoApp.sln                                                    # Replace with your solution name, i.e. MyWpfApp.sln.
-      Android_Project_Directory: MemoApp/MemoApp.Droid                              # Replace with the Android project directory relative to the solution
-      Android_Project_Path: MemoApp/MemoApp.Droid/MemoApp.Droid.csproj              # Replace with the path to your Android project
+      Android_Project_Directory: MemoApp.Droid                                      # Replace with the Android project directory relative to the solution
+      Android_Project_Path: MemoApp.Droid/MemoApp.Droid.csproj                      # Replace with the path to your Android project
 
     steps:
       - uses: actions/checkout@v2
