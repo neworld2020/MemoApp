@@ -50,16 +50,11 @@ jobs:
     name: Android
     runs-on: macos-latest
 
-    env:
-      Solution_Name: MemoApp.sln                                                    # Replace with your solution name, i.e. MyWpfApp.sln.
-      Android_Project_Directory: MemoApp.Droid                                      # Replace with the Android project directory relative to the solution
-      Android_Project_Path: MemoApp.Droid/MemoApp.Droid.csproj                      # Replace with the path to your Android project
-
     steps:
       - uses: actions/checkout@v2
       - uses: bradyjoslin/xamarinandroid-signedbuild-action@v1
         with:
-          csproj_path: $env:Android_Project_Directory
+          csproj_path: MemoApp.Droid/MemoApp.Droid.csproj
           signing_keystore: ${{ secrets.KEYSTORE }}
           keystore_password: ${{ secrets.KEYSTORE_PASS }}
           signing_key_alias: ${{ secrets.KEY_ALIAS }}
@@ -70,4 +65,4 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: ipa
-          path: ${{ env.Android_Project_Directory }}/Release/**Signed.apk
+          path: MemoApp.Droid/Release/**Signed.apk
