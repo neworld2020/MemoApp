@@ -80,10 +80,12 @@ jobs:
     - name: Build And Signing
       uses: bradyjoslin/xamarinandroid-signedbuild-action@v1
       with:
-        # The directory to find your release to sign
+        # Path to csproj file
         csproj_path: $env:Android_Project_Path
-        # The key used to sign your release in base64 encoded format
+        # Base64 representation of the keystore
         signing_keystore: ${{ secrets.AndroidSmxformalKeystore }}
+        # Keystore password
+        keystore_password: android_774225688
         # The key alias
         signing_key_alias: smxformal
         # The password to the keystore
