@@ -1,0 +1,36 @@
+name: .NET Xamarin Android
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+
+  Android:
+    name: Android
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        # Install the .NET Core workload
+      - name: Install .NET Core
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 6.0.x
+        
+      - uses: bradyjoslin/xamarinandroid-signedbuild-action@v1
+        with:
+          csproj_path: MemoApp/MemoApp.Droid/MemoApp.Droid.csproj
+          signing_keystore: ${{ secrets.KEYSTORE }}
+          keystore_password: ${{ secrets.KEYSTORE_PASS }}
+          signing_key_alias: ${{ secrets.KEY_ALIAS }}
+          signing_key_password: ${{ secrets.KEY_PASS }}
+          configuration: "Release"
+          mono_version: "stable"
+          xamarin_android_version: "https://aka.ms/xamarin-android-commercial-d16-7-macos"
+      - uses: actions/upload-artifact@v2
+        with:
+          name: ipa
+          path: MemoApp/MemoApp.Droid/Release/**Signed.apk
