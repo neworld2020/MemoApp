@@ -1,6 +1,8 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:MemoApp.Components;assembly=MemoApp"
              x:Class="MemoApp.Views.WordConfirmPage"
              Shell.NavBarIsVisible="False" Shell.TabBarIsVisible="False"
              Background="#f1f2f4">
@@ -14,28 +16,32 @@
                   RowDefinitions="*, 500, 50"
                   HorizontalOptions="Fill"
                   VerticalOptions="CenterAndExpand">
-                <Label Text="NEW"
-                       x:Name="FamiliarLabel"
-                       TextColor="SeaGreen"
-                       FontFamily="LatinRegular"
-                       Grid.Row="0" Grid.Column="0"
-                       Grid.ColumnSpan="2"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center"/>
-                <Label Text="vocabulary"
-                       x:Name="WordLabel"
-                       FontFamily="Smiley Sans"
-                       FontSize="60"
-                       TextColor="Black"
-                       Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" 
-                       Margin="0, -200, 0, 0"
-                       HorizontalOptions="Center"
-                       VerticalOptions="CenterAndExpand" />
+                <local:Audio AutoPlay="true"
+                             x:Name="WordAudio"/>
+                <StackLayout Grid.Row="1" 
+                             Grid.Column="0" 
+                             Grid.ColumnSpan="2"
+                             HorizontalOptions="Fill"
+                             VerticalOptions="Fill"
+                             Spacing="0" >
+                    <Label Text="vocabulary"
+                           x:Name="WordLabel"
+                           FontFamily="LatinRegular"
+                           FontSize="60"
+                           TextColor="Black" 
+                           HorizontalOptions="CenterAndExpand"
+                           Margin="0, 50, 0, 0"/>
+                    <Label Text="NEW"
+                           x:Name="FamiliarLabel"
+                           TextColor="SeaGreen"
+                           FontFamily="LatinRegular"
+                           HorizontalOptions="CenterAndExpand"/>
+                </StackLayout>
                 <Button Text="认识"
                         Grid.Row="2" Grid.Column="0"
                         FontSize="20"
                         FontFamily="Smiley Sans"
-                        Clicked="OnSkipButtonClicked" 
+                        Clicked="OnSkipButtonClicked"
                         TextColor="Green"
                         Background="White" />
                 <Button Text="不认识"
@@ -43,7 +49,7 @@
                         FontSize="20"
                         FontFamily="Smiley Sans"
                         TextColor="Red"
-                        Background="White" 
+                        Background="White"
                         Clicked="OnInfoButtonClicked" />
             </Grid>
         </Frame>

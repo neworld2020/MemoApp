@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using MemoApp.Models;
 using MemoApp.ViewModels;
 using Xamarin.Forms;
@@ -37,7 +38,7 @@ namespace MemoApp.Views
 
             // TODO 实现复习功能
             // get first word
-            if (!_localStorage.Init())
+            if (!await _localStorage.Init())
             {
                 await DisplayAlert("Tip", "Please Login First", "OK");
                 return;
@@ -56,6 +57,7 @@ namespace MemoApp.Views
 
         protected override void OnAppearing()
         {
+            // TODO 新增从本地读取图片的功能
             base.OnAppearing();
             // 其他加载项异步执行
             Device.StartTimer(TimeSpan.FromMilliseconds(100), () =>
@@ -72,14 +74,14 @@ namespace MemoApp.Views
                 // 2. Auto Login
                 GlobalClasses.ExtLogin.Init();
                 // 3. localStorage Initialize
-                if (FirstStudy) _localStorage.Init();
+                if (FirstStudy) _localStorage.Init().Wait();
                 // 4. Update Nums
                 _indexViewModel.WordsToStudy = GlobalClasses.Index.WordsToStudy;
                 _indexViewModel.WordsToReview = GlobalClasses.Index.WordsToReview;
                 // 5. Update Avatar
                 string username = GlobalClasses.ExtLogin.RememberedUsername;
-                bool HasLogin = !string.IsNullOrEmpty(GlobalClasses.RemoteStorage.UserKey);
-                if (!HasLogin)
+                bool hasLogin = !string.IsNullOrEmpty(GlobalClasses.RemoteStorage.UserKey);
+                if (!hasLogin)
                 {
                     // default avatar
                     _indexViewModel.AvatarSource = "https://cloud-smx2003.fun/file/0220160940_user.png";

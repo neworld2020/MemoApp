@@ -43,7 +43,7 @@ namespace MemoApp.ViewModels
             get => _wordsToReview;
             set
             {
-                if (_wordsToStudy != value)
+                if (_wordsToReview != value)
                 {
                     _wordsToReview = value;
 

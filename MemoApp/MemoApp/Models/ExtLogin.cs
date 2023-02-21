@@ -82,7 +82,7 @@ namespace MemoApp.Models
         public bool Update()
         {
             // use UpdateUserkeyToken to get and update userkey
-            UpdateUserkey = _rs.UpdateUserkey(UpdateUserkey);
+            UpdateUserkey = _rs.UpdateUserkeyAsync(UpdateUserkey).Result;
             if (_loginConfigs.UpdateUserkey == null)
             {
                 return false;

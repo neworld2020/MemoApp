@@ -237,9 +237,7 @@ GUI means Graphical User Interface. Because a user will directly interact with G
 
 Thanks to ui avatar [Generate avatars with initials - User Initial avatars (ui-avatars.com)](https://ui-avatars.com/), we can use following api to get a avatar meets our need
 
-[Avatar API]:https://ui-avatars.com/api/?name={username}&background=2992e5&color=fff
-
-
+[Avatar API]:https://ui-avatars.com/api/?name={username}&background=2992e5&color=fff&uppercase=false
 
 ### Genshin Theme
 

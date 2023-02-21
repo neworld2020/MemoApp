@@ -19,73 +19,21 @@ namespace MemoApp.Models
             this.UserKey = userKey;
         }
 
-        public bool Connect()
-        {
-            // This method is used to test if the remote server is available.
-            // If the server is available, it will return true.
-            // If the server is not available, it will return false
-            HttpRequestMessage httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, "/");
-            Task<HttpResponseMessage> response = _client.SendAsync(httpRequestMessage);
-            return response.Result.StatusCode == System.Net.HttpStatusCode.OK;
-        }
-
-
-        public async Task<String> GetVocabulary()
-        {
-            if (string.IsNullOrEmpty(UserKey))
-            {
-                return null;
-            }
-            // This method is used to get the vocabulary from the remote server.
-            // If the server is available, it will return the vocabulary.
-            // If the server is not available, it will return null.
-            string getVocabularyPath = "/corpus/vocabulary?userkey=" + UserKey;
-            HttpRequestMessage httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, getVocabularyPath);
-            Task<HttpResponseMessage> response = _client.SendAsync(httpRequestMessage);
-            if (response.Result.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                string responseStr = await response.Result.Content.ReadAsStringAsync();
-                return responseStr;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public async Task<String> GetWordDetails()
+        public async Task<String> GetVocabularyAndDetailsAsync(bool review = false, int count = 20)
         {
             if (string.IsNullOrEmpty(UserKey))
             {
                 return null;
             }
             // This method is used to get the corpus from the remote server.
-            string getWordDetailsPath = "/corpus/word-details?userkey=" + UserKey;
+            string reviewUri = $"/v2/corpus/review_vocabulary_and_words?userkey={UserKey}";
+            string studyUri = $"/v2/corpus/vocabulary-and-details?userkey={UserKey}&count={count}";
+            string getWordDetailsPath = review ? reviewUri : studyUri;
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, getWordDetailsPath);
-            Task<HttpResponseMessage> response = _client.SendAsync(httpRequestMessage);
-            if (response.Result.StatusCode == System.Net.HttpStatusCode.OK)
+            var response = _client.SendAsync(httpRequestMessage).Result;
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                return await response.Result.Content.ReadAsStringAsync();
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public async Task<String> GetVocabularyAndDetails(int count = 20)
-        {
-            if (string.IsNullOrEmpty(UserKey))
-            {
-                return null;
-            }
-            // This method is used to get the corpus from the remote server.
-            string getWordDetailsPath = "/v2/corpus/vocabulary-and-details?userkey=" + UserKey + "&count=" + count;
-            HttpRequestMessage httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, getWordDetailsPath);
-            Task<HttpResponseMessage> response = _client.SendAsync(httpRequestMessage);
-            if (response.Result.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                return await response.Result.Content.ReadAsStringAsync();
+                return await response.Content.ReadAsStringAsync();
             }
             else
             {
@@ -93,23 +41,21 @@ namespace MemoApp.Models
             }
         }
         
-        public string UpdateUserkey(string userkeyInFile)
+        public async Task<string> UpdateUserkeyAsync(string userkeyInFile)
         {
             string updatePath = "/v2/user/update-userkey?userkey=" + userkeyInFile;
             HttpRequestMessage httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, updatePath);
-            Task<HttpResponseMessage> response = _client.SendAsync(httpRequestMessage);
-            if (response.Result.StatusCode == System.Net.HttpStatusCode.OK)
+            var response = _client.SendAsync(httpRequestMessage).Result;
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                string userKeyJson = response.Result.Content.ReadAsStringAsync().Result;
+                string userKeyJson = await response.Content.ReadAsStringAsync();
                 UserkeyResponse userkeyResponse = JsonConvert.DeserializeObject<UserkeyResponse>(userKeyJson);
                 UserKey = userkeyResponse.userkey;
                 GlobalClasses.RemoteStorage.UserKey = userkeyResponse.userkey;
                 return UserKey;
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
     }
 }

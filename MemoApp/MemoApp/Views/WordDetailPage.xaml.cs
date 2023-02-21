@@ -76,7 +76,8 @@ namespace MemoApp.Views
                 else
                 {
                     // if MAX -- today words - 1
-                    GlobalClasses.Index.WordsToStudy -= 1;
+                    //GlobalClasses.Index.WordsToStudy -= 1;
+                    ;
                 }
                 
                 // to next word

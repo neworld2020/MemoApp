@@ -27,9 +27,9 @@ namespace MemoApp.Models
         private const string LocalQueueFileName = "WordQueue.txt";
         
         // Exposing APIs
-        public bool Init()
+        public async Task<bool> Init()
         {
-            if (_wordQueueIt == null || _wordQueueIt.Current == null)
+            if (_wordQueueIt?.Current == null)
             {
                 // get from local file
                 string fileAdr =
@@ -44,24 +44,35 @@ namespace MemoApp.Models
                     }
                 }
                 // get from server
-                Task<string> vocabularyAndDetailsJson = _rs.GetVocabularyAndDetails();
-                if (vocabularyAndDetailsJson.Result == null)
+                var reviewVocabularyAndDetails = await _rs.GetVocabularyAndDetailsAsync(true);
+                var vocabularyAndDetailsJson = await _rs.GetVocabularyAndDetailsAsync();
+                if (string.IsNullOrEmpty(vocabularyAndDetailsJson))
                 {
                     return false;
                 }
+                VocabularyAndDetails studyWDs = 
+                    JsonConvert.DeserializeObject<VocabularyAndDetails>(vocabularyAndDetailsJson);
+                GlobalClasses.Index.WordsToStudy = studyWDs.vocabulary.Count;
+                if (!string.IsNullOrEmpty(reviewVocabularyAndDetails))
+                {
+                    // maybe there is no word to review
+                    VocabularyAndDetails reviewWDs = 
+                        JsonConvert.DeserializeObject<VocabularyAndDetails>(reviewVocabularyAndDetails);
+                    studyWDs.word_details.AddRange(reviewWDs.word_details);
+                    studyWDs.vocabulary.AddRange(reviewWDs.vocabulary);
+                    GlobalClasses.Index.WordsToReview = reviewWDs.vocabulary.Count;
+                }
 
-                VocabularyAndDetails vocabularyAndDetails = 
-                    JsonConvert.DeserializeObject<VocabularyAndDetails>(vocabularyAndDetailsJson.Result);
-                WordDetails = (new WordDetails(vocabularyAndDetails.word_details)).Preprocess();
+                
+                WordDetails = new WordDetails(studyWDs.word_details).Preprocess();
                 // Process Vocabulary -- divide into groups
-                Vocabulary = new Vocabulary(vocabularyAndDetails.vocabulary);
+                Vocabulary = new Vocabulary(studyWDs.vocabulary);
                 _wordQueue.Init(Vocabulary);
                 _wordQueueIt = (WordQueueIterator)_wordQueue.GetEnumerator();
                 _wordQueueIt.MoveNext();
-                GlobalClasses.Index.WordsToStudy = Vocabulary.Count;
-                
+
                 // write to file
-                File.WriteAllText(fileAdr, JsonConvert.SerializeObject(vocabularyAndDetails));
+                File.WriteAllText(fileAdr, JsonConvert.SerializeObject(studyWDs));
             }
             return true;
         }
@@ -100,18 +111,16 @@ namespace MemoApp.Models
         public bool MoveNext()
         {
             bool hasNext = _wordQueueIt.MoveNext();
-            if (!hasNext)
-            {
-                // last one -- clear local storage
-                string fileAdr =
-                    Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                        LocalQueueFileName);
-                File.Delete(fileAdr);
-                _wordQueueIt = null;
-                GlobalClasses.Index.FirstStudy = false;
-            }
+            if (hasNext) return true;
+            // last one -- clear local storage
+            string fileAdr =
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                    LocalQueueFileName);
+            File.Delete(fileAdr);
+            _wordQueueIt = null;
+            GlobalClasses.Index.FirstStudy = false;
 
-            return hasNext;
+            return false;
         }
 
         public void Repeat()
