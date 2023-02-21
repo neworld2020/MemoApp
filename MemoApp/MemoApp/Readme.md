@@ -83,8 +83,6 @@
 
    
 
-   
-
 ### Client GUI Design
 
 GUI means Graphical User Interface. Because a user will directly interact with GUI, it is usually the most important part in APP designing and programming. Here, we use normal designing software(Like Photoshop, Axure) to  design and **Xamarin** (a useful programming framework designed by Microsoft and wriiten with C#) to program.
@@ -225,6 +223,25 @@ GUI means Graphical User Interface. Because a user will directly interact with G
 
    We place a "pause and exit" button to enable user to get out of the confirm page and detail page. And we set that only after all words are finished will we get new groups of words from server. We will also write the WordQueue into local file to get it after exiting the app.
 
+6. Auto-generated Avator
+
+   Thanks to ui avatar [Generate avatars with initials - User Initial avatars (ui-avatars.com)](https://ui-avatars.com/), we can use following api to get a avatar meets our need
+
+   [Avatar API]:https://ui-avatars.com/api/?name={username}&background=2992e5&color=fff&uppercase=false
+
+7. Voice For Words
+
+   Using youdao APIs, we can get voice for each words from
+
+   [Voice API]: dict.youdao.com/dictvoice?type=0&audio=calamity(http://dict.youdao.com/dictvoice?type=0&audio=calamity)
+
+   type: 0 for American English, 1 for Britsh English
+
+   audio: the word to get the voice
+   
+   Besides API, we install a nuget package named "**SimpleAudioPlayer**", it can play audio from a stream, which we can get through a http client.
+
+
 #### Future Features We May Add
 
 ### Client-Server APIs
@@ -233,11 +250,6 @@ GUI means Graphical User Interface. Because a user will directly interact with G
 >
 > [Playen APIs]: https://www.cloud-smx2003.fun/apidocs
 
-### Auto-generated Avator
-
-Thanks to ui avatar [Generate avatars with initials - User Initial avatars (ui-avatars.com)](https://ui-avatars.com/), we can use following api to get a avatar meets our need
-
-[Avatar API]:https://ui-avatars.com/api/?name={username}&background=2992e5&color=fff&uppercase=false
 
 ### Genshin Theme
 

@@ -70,9 +70,9 @@ namespace MemoApp.Views
             base.OnAppearing();
             // adjust font size automatically
             WordLabel.Text = Word;
-            if (WordLabel.Text.Length <= 9)
+            if (WordLabel.Text.Length <= 7)
                 WordLabel.FontSize = 60;
-            else if (WordLabel.Text.Length <= 16)
+            else if (WordLabel.Text.Length <= 10)
                 WordLabel.FontSize = 50;
             else
                 WordLabel.FontSize = 42;
@@ -81,7 +81,6 @@ namespace MemoApp.Views
                 if (_localStorage.Current.familiar_degree > 0)
                     // SET TO: "LEVEL-x"
                     FamiliarLabel.Text = "LEVEL-" + _localStorage.Current.familiar_degree;
-            // WordAudio.Source = "http://dict.youdao.com/dictvoice?type=0&audio=calamity";
             UriBuilder audioUri = new UriBuilder("https://dict.youdao.com/dictvoice");
             audioUri.Query = $"type=0&audio={Word}";
             WordAudio.Source = audioUri.Uri;

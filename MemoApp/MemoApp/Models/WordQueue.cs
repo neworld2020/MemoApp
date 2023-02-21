@@ -4,20 +4,7 @@ using System.Collections.Generic;
 
 namespace MemoApp.Models
 {
-    // for debug
-    /*
-    public static class GlobalClasses
-    {
-        public static readonly RemoteStorage RemoteStorage = new RemoteStorage("https://www.cloud-smx2003.fun");
-        public static readonly LocalStorage LocalStorage = new LocalStorage(RemoteStorage);
 
-        // 最大熟悉度
-        public const int MaxDegreeFamiliar = 4;
-        // 每组最大单词个数
-        public const int MaxNumOfGroup = 7;
-    }
-    */
-    
     public class WordQueue: IEnumerable<Word>
     {
         /*
