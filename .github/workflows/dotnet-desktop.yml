@@ -29,7 +29,7 @@ jobs:
           signing_key_password: ${{ secrets.KEY_PASS }}
           configuration: "Release"
           mono_version: "stable"
-          xamarin_android_version: "https://aka.ms/xamarin-android-commercial-d16-7-windows"
+          xamarin_android_version: "https://aka.ms/xamarin-android-commercial-d16-7-macos"
       - uses: actions/upload-artifact@v2
         with:
           name: ipa
